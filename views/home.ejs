@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAojZCynw9aDM7eiwS2whbLKprfOYfLgGE",
+        authDomain: "graduation-1f4f6.firebaseapp.com",
+        databaseURL: "https://graduation-1f4f6.firebaseio.com",
+        projectId: "graduation-1f4f6",
+        storageBucket: "graduation-1f4f6.appspot.com",
+        messagingSenderId: "641118825322"
+      };
+
+      firebase.initializeApp(config);
+               const db = firebase.firestore();
+               db.settings({ timestampsInSnapshots: true });
+    </script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+       <% include partials/try.ejs %>
+
+  <script>
+     db.collection('menoufInformation').onSnapshot(snapshot => {
+      let changes = snapshot.docChanges();
+      changes.forEach(change => {
+        var data = change.doc.data().information
+          console.log(data);
+          var par = document.createElement("p");
+    var text = document.createTextNode(data);
+    par.appendChild(text);
+    document.body.appendChild(par);
+
+
+
+          }
+      );
+  });
+  </script>
+  </body>
+</html>

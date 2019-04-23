@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAojZCynw9aDM7eiwS2whbLKprfOYfLgGE",
+    authDomain: "graduation-1f4f6.firebaseapp.com",
+    databaseURL: "https://graduation-1f4f6.firebaseio.com",
+    projectId: "graduation-1f4f6",
+    storageBucket: "graduation-1f4f6.appspot.com",
+    messagingSenderId: "641118825322"
+  };
+
+  firebase.initializeApp(config);
+           const db = firebase.firestore();
+</script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+       <% include partials/navAdmin.ejs %>
+   <div class="container">
+    <ul class="row" id="addItem">
+  </ul>
+  <form id="addinfo">
+
+    <table id="previewTable">
+    <thead id="columns"></thead>
+    <tbody id="previews"></tbody>
+     </table>
+    <input type="text" name="name" id="name" placeholder="name"/>
+    <input type="text" name="description" id="description" placeholder="description"/>
+    <input type="number" name="number" id="number" placeholder="number"/>
+    <input type="text" name="adress" id="adress" placeholder="adress"/>
+    <input type="file" name="filefield" multiple="multiple" id="img">
+  <button id="upload">upload</button>
+  </form>
+   </div>
+   <script>
+   const info = document.querySelector('#addItem');
+      const form = document.querySelector('#addinfo');
+         const imgName = document.querySelector('#img');
+   function renderInf(doc){
+       let li = document.createElement('li');
+       let information = document.createElement('span');
+       let cross = document.createElement('div');
+       li.setAttribute('data-id', doc.id);
+       information.textContent = doc.data().name;
+       cross.textContent = 'x';
+       li.appendChild(information);
+          li.appendChild(cross);
+        cross.className = 'col s2 push-s6';
+       info.appendChild(li);
+       cross.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let id = e.target.parentElement.getAttribute('data-id');
+    db.collection('hotel').doc(id).delete().catch(err => {console.log(err)
+        alert("sign in first")
+      });
+});
+   }
+   db.collection('hotel').onSnapshot(snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach(change => {
+        if(change.type == 'added'){
+            renderInf(change.doc);
+        } else if (change.type == 'removed'){
+            let li = info.querySelector('[data-id=' + change.doc.id + ']');
+            info.removeChild(li);}
+    });
+});
+var selectedFile = [] ;
+var name = [] ;
+var down = [];
+var nam = '' ;
+var ur = [] ;
+var urd  ;
+var id  ;
+var nid = []  ;
+var count ;
+var t;
+var arr = [];
+var arr1 = [];
+$("#img").on("change" , function(e){
+  count = e.target.files.length
+  for (var i = 0; i < count ; i++) {
+        selectedFile[i] = e.target.files[i];
+}})
+document.getElementById("upload").addEventListener("click", (e) => {
+  e.preventDefault();
+    for(var i = 0; i < selectedFile.length; i++) {
+var storageRef = firebase.storage().ref('/images/' + selectedFile[i].name+Date.now());
+    var uploadTask = storageRef.put(selectedFile[i]);
+    uploadTask.then(function(snapshot){
+  snapshot.ref.getDownloadURL().then(function(downloadURL) {
+     nam = form.name.value
+     arr.push(downloadURL)
+     if(arr.length == count){
+       db.collection('hotel').add({
+            url:arr,
+         name: form.name.value,
+         adress:form.adress.value,
+         number:form.number.value,
+         description:form.description.value
+       });
+       form.name.value= ""
+       form.adress.value= ""
+       form.number.value= ""
+       form.description.value= ""
+     }
+});
+})
+}
+})
+   </script>
+  </body>
+</html>

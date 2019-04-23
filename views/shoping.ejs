@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAojZCynw9aDM7eiwS2whbLKprfOYfLgGE",
+        authDomain: "graduation-1f4f6.firebaseapp.com",
+        databaseURL: "https://graduation-1f4f6.firebaseio.com",
+        projectId: "graduation-1f4f6",
+        storageBucket: "graduation-1f4f6.appspot.com",
+        messagingSenderId: "641118825322"
+      };
+
+      firebase.initializeApp(config);
+               const db = firebase.firestore();
+               db.settings({ timestampsInSnapshots: true });
+    </script>
+
+
+    <title>Colorlib Villa</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Mukta+Mahee:200,300,400|Playfair+Display:400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="./asset/css/bootstrap.css">
+    <link rel="stylesheet" href="./asset/css/animate.css">
+    <link rel="stylesheet" href="./asset/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="./asset/css/aos.css">
+
+    <link rel="stylesheet" href="./asset/fonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="./asset/fonts/fontawesome/css/font-awesome.min.css">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="./asset/css/style.css">
+  </head>
+  <body>
+
+    <header class="site-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4 site-logo" data-aos="fade"><a href="/"><em>Menuf</em></a></div>
+          <div class="col-8">
+
+
+            <div class="site-menu-toggle js-site-menu-toggle"  data-aos="fade">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <!-- END menu-toggle -->
+
+            <div class="site-navbar js-site-navbar">
+              <nav role="navigation">
+                <div class="container">
+                  <div class="row full-height align-items-center">
+                    <div class="col-md-6">
+                      <ul class="list-unstyled menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="hotel">Hotel</a></li>
+                            <li><a href="resturant">resturant</a></li>
+                            <li><a href="electronics">electronics</a></li>
+                            <li><a href="medical">medical</a></li>
+                            <li><a href="logInAdmin">admin</a></li>
+                            <li><a href="logIn"class="fab fa-google fa-lg">chat</a></li>
+                        <li><a href="logInAdmin">sign in</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- END head -->
+
+    <section class="site-hero overlay page-inside" style="background-image: url(./asset/img/shops.jpg)">
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center">
+            <h1 class="heading" data-aos="fade-up">shopping</h1>
+            <p class="sub-heading mb-5" data-aos="fade-up" data-aos-delay="100">wish u find what u want.</p>
+          </div>
+        </div>
+        <!-- <a href="#" class="scroll-down">Scroll Down</a> -->
+      </div>
+    </section>
+    <!-- END section -->
+<!--
+
+    </footer> -->
+
+    <script src="./asset/js/jquery-3.2.1.min.js"></script>
+    <script src="./asset/js/popper.min.js"></script>
+    <script src="./asset/js/bootstrap.min.js"></script>
+    <script src="./asset/js/owl.carousel.min.js"></script>
+    <script src="./asset/js/jquery.waypoints.min.js"></script>
+    <script src="./asset/js/aos.js"></script>
+    <script src="./asset/js/main.js"></script>
+    <script>
+       db.collection('shopping').onSnapshot(snapshot => {
+        let changes = snapshot.docChanges();
+        changes.forEach(change => {
+
+          let section = document.createElement("SECTION");
+          section.className = "bg-light";
+           let div = document.createElement('div');
+           div.className = "half d-md-flex d-block"
+            let divText = document.createElement('div');
+            divText.className = "text";
+            divText.setAttribute("data-aos", "fade-right");
+           var img = document.createElement("IMG");
+           img.className = "class"
+           img.src= change.doc.data().url[0]
+           img.setAttribute("data-aos", "fade");
+           img.setAttribute("style", "width:550px");
+           img.setAttribute("style", "height:550px");
+           var h = document.createElement("H2")                // Create a <h1> element
+           var t = document.createTextNode(change.doc.data().name);     // Create a text node
+             h.appendChild(t);
+          var p = document.createElement("p");
+            var p2 = document.createElement("p");
+          var t2 = document.createTextNode(change.doc.data().number);
+          var t3 = document.createTextNode(change.doc.data().adress);
+          p.appendChild(t2);
+          p2.appendChild(t3);
+          section.appendChild(div);
+          div.appendChild(img);
+            div.appendChild(divText);
+          divText.appendChild(h);
+          divText.appendChild(p)
+          divText.appendChild(p2)
+          let id = change.doc.id
+         var a = document.createElement('a');
+         var linkText = document.createTextNode("read more");
+         a.appendChild(linkText);
+         a.title = "read more";
+         a.href = 'shoppingD/'+id;
+           divText.appendChild(a)
+          document.body.appendChild(section)
+
+
+          // var data = change.doc.data().name
+          //  document.getElementById("imginf").src=change.doc.data().url
+      //       var par = document.getElementById('hotelInf');
+      // var text = document.createTextNode(data);
+      // par.appendChild(text);
+    }
+        );
+    });
+
+
+    </script>
+  </body>
+</html>

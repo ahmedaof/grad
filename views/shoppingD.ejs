@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAojZCynw9aDM7eiwS2whbLKprfOYfLgGE",
+        authDomain: "graduation-1f4f6.firebaseapp.com",
+        databaseURL: "https://graduation-1f4f6.firebaseio.com",
+        projectId: "graduation-1f4f6",
+        storageBucket: "graduation-1f4f6.appspot.com",
+        messagingSenderId: "641118825322"
+      };
+
+      firebase.initializeApp(config);
+               const db = firebase.firestore();
+    </script>
+
+
+    <title>shopping</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Mukta+Mahee:200,300,400|Playfair+Display:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/bootstrap.css">
+    <link rel="stylesheet" href="../asset/css/animate.css">
+    <link rel="stylesheet" href="../asset/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../asset/css/aos.css">
+    <link rel="stylesheet" href="../asset/css/details.css">
+
+    <link rel="stylesheet" href="../asset/fonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../asset/fonts/fontawesome/css/font-awesome.min.css">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/fontawesome-free-5.6.3-web/css/all.css" >
+      <link rel="stylesheet" href="../asset/index.css" >
+  </head>
+  <body>
+
+    <header class="site-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-4 site-logo" data-aos="fade"><a href="/"><em>Menuf</em></a></div>
+          <div class="col-8">
+
+
+            <div class="site-menu-toggle js-site-menu-toggle"  data-aos="fade">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <!-- END menu-toggle -->
+
+            <div class="site-navbar js-site-navbar">
+              <nav role="navigation">
+                <div class="container">
+                  <div class="row full-height align-items-center">
+                    <div class="col-md-6">
+                      <ul class="list-unstyled menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="hotel">Hotel</a></li>
+                            <li><a href="resturant">resturant</a></li>
+                            <li><a href="electronics">electronics</a></li>
+                            <li><a href="medical">medical</a></li>
+                            <li><a href="logInAdmin">admin</a></li>
+                            <li><a href="logIn"class="fab fa-google fa-lg">chat</a></li>
+                        <li><a href="logInAdmin">sign in</a></li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- END head -->
+
+    <section class="site-hero overlay page-inside" style="background-image: url(../asset/img/shops.jpg)">
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center">
+            <h1 class="heading" data-aos="fade-up">get what u want</h1>
+            <p class="sub-heading mb-5" data-aos="fade-up" data-aos-delay="100">all u want available here</p>
+          </div>
+        </div>
+        <!-- <a href="#" class="scroll-down">Scroll Down</a> -->
+      </div>
+    </section>
+
+    <script src="../asset/js/jquery-3.2.1.min.js"></script>
+    <script src="../asset/js/popper.min.js"></script>
+    <script src="../asset/js/bootstrap.min.js"></script>
+    <script src="../asset/js/owl.carousel.min.js"></script>
+    <script src="../asset/js/jquery.waypoints.min.js"></script>
+    <script src="../asset/js/aos.js"></script>
+    <script src="../asset/js/main.js"></script>
+      <script src="../asset/js/render.js"></script>
+    <script>
+    let qs = '<%=qs%>'
+
+ let uids = "";
+db.collection('shopping').onSnapshot(snapshot => {
+ let changes = snapshot.docChanges();
+ changes.forEach(change => {
+  let uids = change.doc.ref.firestore._config.credentials.currentUser.uid
+   if(qs == change.doc.id){
+     let section = document.createElement("SECTION");
+     section.className = "bg-light";
+      let div = document.createElement('div');
+      div.className = "half d-md-flex d-block"
+        div.className = "container"
+       let divText = document.createElement('div');
+       divText.className = "text";
+         divText.className = "container"
+       divText.setAttribute("data-aos", "fade-right");
+
+      for(var i = 0;i<change.doc.data().url.length;i++){
+
+        var img1 = document.createElement("IMG");
+        img1.className = "class"
+        img1.src= change.doc.data().url[i]
+        img1.setAttribute("data-aos", "fade");
+           div.appendChild(img1);
+      }
+      var h = document.createElement("H2")                // Create a <h1> element
+      var t = document.createTextNode(change.doc.data().name);     // Create a text node
+        h.appendChild(t);
+     var p = document.createElement("p");
+       var p2 = document.createElement("p");
+       var p5 = document.createElement("p");
+          var t5 = document.createTextNode(change.doc.data().description);
+     var t2 = document.createTextNode(change.doc.data().number);
+     var t3 = document.createTextNode(change.doc.data().adress);
+     p.appendChild(t2);
+     p2.appendChild(t3);
+      p5.appendChild(t5);
+     section.appendChild(div);
+       section.appendChild(divText);
+     divText.appendChild(h);
+     divText.appendChild(p)
+     divText.appendChild(p2)
+     divText.appendChild(p5)
+     document.body.appendChild(section)
+     let div3 = document.createElement('div');
+     div3.className = "half d-md-flex d-block"
+       div3.className = "container"
+     var input = document.createElement("INPUT");
+      input.setAttribute("type", "text");
+      input.setAttribute("placeholder","comment")
+      document.body.appendChild(input)
+      var btn = document.createElement("BUTTON");   // Create a <button> element
+      btn.innerHTML = "CLICK ME";
+      div3.appendChild(input)
+      div3.appendChild(btn)
+
+        document.body.appendChild(div3)
+           btn.addEventListener("click", (e) => {
+           e.preventDefault();
+           db.collection('comment').add({
+           comment: input.value,
+           id:uids,
+           ids:qs
+         }).catch(err => {
+           alert("sign in first")
+         });
+input.value = ""
+        })
+   }
+ })
+})
+
+db.collection('comment').onSnapshot(snapshot => {
+ let changes = snapshot.docChanges();
+ changes.forEach(change => {
+
+
+
+       if(qs == change.doc.data().ids){
+          let div1 = document.createElement('div');
+             div1.setAttribute('class', 'container');
+     let li = document.createElement('li');
+     let information = document.createElement('span');
+     let cross = document.createElement('div');
+         cross.className = 'col-sm-8 col-sm-pull-4';
+         cross.setAttribute("style","display:none")
+     li.setAttribute('data-id',change.doc.id);
+     information.textContent = change.doc.data().comment;
+     cross.textContent = 'x';
+     li.appendChild(information);
+        li.appendChild(cross);
+
+      var ul = document.createElement("UL");
+     ul.className = "row";
+     ul.appendChild(li)
+     div1.appendChild(ul)
+      document.body.appendChild(div1);
+
+         firebase.auth().currentUser.getIdTokenResult()
+           .then((idTokenResult) => {
+              if (!!idTokenResult.claims.admin) {
+                   cross.setAttribute("style","display:inline")}
+
+
+        if(change.doc.data().id ==  change.doc.ref.firestore._config.credentials.currentUser.uid){
+             cross.setAttribute("style","display:inline")
+        }
+     cross.addEventListener('click', (e) => {
+        e.stopPropagation();
+          new Promise(function(){
+            if(!!idTokenResult.claims.admin){
+              let id = e.target.parentElement.getAttribute('data-id');
+              db.collection('comment').doc(id).delete().then(() => {
+                window.location.reload(false);
+            }).catch(err => {console.log(err)
+                alert("sign in first")
+              })
+              let li = ul.querySelector('[data-id=' + change.doc.id + ']');
+              ul.removeChild(li)
+            }
+  else if(change.doc.data().id ==  change.doc.ref.firestore._config.credentials.currentUser.uid){
+  let id = e.target.parentElement.getAttribute('data-id');
+  db.collection('comment').doc(id).delete().then(() => {
+    window.location.reload(false);
+}).catch(err => {console.log(err)
+    alert("sign in first")
+  })
+  let li = ul.querySelector('[data-id=' + change.doc.id + ']');
+  ul.removeChild(li)
+}
+})
+
+})
+  })
+}
+})
+
+})
+
+
+
+    </script>
+    <script src="../asset/jquery/jquery-3.3.1.min.js"></script>
+    <script src="../asset/materialize/js/materialize.min.js"></script>
+
+  </body>
+</html>
